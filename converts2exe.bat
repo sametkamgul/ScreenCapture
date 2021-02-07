@@ -1,0 +1,1 @@
+pyinstaller main.py --onefile -n ScreenCaptureForZoom.exe

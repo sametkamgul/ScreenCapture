@@ -41,7 +41,7 @@ def screen_capture():
             # Display the original picture
             #cv.imshow("OpenCV/Numpy normal", img)
 
-            print("fps: {}".format(1 / (time.time() - last_time)))
+            #print("fps: {}".format(1 / (time.time() - last_time)))
 
             # Press "q" to quit
             if cv.waitKey(25) & 0xFF == ord("q"):
@@ -58,17 +58,26 @@ def find_squares(img):
     imgGry = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
     ret, thrash = cv.threshold(imgGry, 240, 255, cv.CHAIN_APPROX_NONE)
     contours, hierarchy = cv.findContours(thrash, cv.RETR_TREE, cv.CHAIN_APPROX_NONE)
+    square_list = []
 
     for contour in contours:
         approx = cv.approxPolyDP(contour, 0.01 * cv.arcLength(contour, True), True)
         x = approx.ravel()[0]
         y = approx.ravel()[1] - 5
+
         if len(approx) == 4:
             x, y, w, h = cv.boundingRect(approx)
             if w >=150 and w <= 500 and h >= 150 and h <= 500:
+
+                if [x, y, w, h] in square_list:
+                    #print("exists")
+                    pass
+                else:
+                    #print("not exists")
+                    square_list.append([x, y, w, h])
                 cv.drawContours(img, [approx], 0, (0, 255, 0), 5)
                 aspectRatio = float(w) / h
-                print(aspectRatio)
+                #print(aspectRatio)
                 if aspectRatio >= 0.95 and aspectRatio < 1.05:
                     cv.putText(img, "detected-square", (x, y + 100), cv.FONT_HERSHEY_COMPLEX, 0.5, (0, 0, 255))
                 else:
@@ -77,6 +86,7 @@ def find_squares(img):
                 pass
         else:
             pass
+        print(len(square_list), square_list)    # listing the rect areas
     return img
 
 
