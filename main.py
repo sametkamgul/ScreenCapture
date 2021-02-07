@@ -50,6 +50,11 @@ def screen_capture():
 
 
 def find_squares(img):
+    """
+    finds the square or rectangle with a certain range of width and height
+    :param img:
+    :return: img
+    """
     imgGry = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
     ret, thrash = cv.threshold(imgGry, 240, 255, cv.CHAIN_APPROX_NONE)
     contours, hierarchy = cv.findContours(thrash, cv.RETR_TREE, cv.CHAIN_APPROX_NONE)
