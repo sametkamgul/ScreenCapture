@@ -1,4 +1,4 @@
-# ScreenCaptureForZoom
+# ScreenCapture
 
 # How to install?
 - install necessary packages with "pip install -r requirements.txt"
